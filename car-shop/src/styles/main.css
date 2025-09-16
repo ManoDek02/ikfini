@@ -4,6 +4,40 @@
     box-sizing: border-box;
 }
 
+/* Améliorations pour mobile */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input, textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Améliorer les interactions tactiles */
+.btn, .filter-btn, .price-btn, .contact-btn {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+}
+
+/* Empêcher le zoom sur les inputs */
+input[type="text"], input[type="email"], input[type="tel"] {
+    font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    input[type="text"], input[type="email"], input[type="tel"] {
+        font-size: 16px !important;
+    }
+}
+
 :root {
     --primary-color: #dc2626;
     --secondary-color: #ef4444;
@@ -669,6 +703,23 @@ body {
 
     .nav-toggle.active .bar:nth-child(2) {
         opacity: 0;
+    }
+
+    /* Améliorations tactiles pour mobile */
+    .btn, .filter-btn, .price-btn, .contact-btn {
+        min-height: 44px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .nav-toggle {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .car-actions .btn {
+        min-height: 48px;
+        font-size: 0.9rem;
     }
 
     .nav-toggle.active .bar:nth-child(3) {

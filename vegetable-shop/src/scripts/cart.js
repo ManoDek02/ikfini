@@ -161,6 +161,46 @@ class CartManager {
                 e.stopPropagation();
             });
         }
+
+        // Améliorations pour mobile
+        this.setupMobileOptimizations();
+    }
+
+    // Optimisations spécifiques pour mobile
+    setupMobileOptimizations() {
+        // Détecter si on est sur mobile
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // Empêcher le zoom sur les inputs
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.style.fontSize = '16px'; // Empêche le zoom sur iOS
+                });
+            });
+
+            // Améliorer les interactions tactiles
+            const buttons = document.querySelectorAll('.btn, .quantity-btn, .filter-btn');
+            buttons.forEach(button => {
+                button.addEventListener('touchstart', (e) => {
+                    button.style.transform = 'scale(0.95)';
+                });
+                
+                button.addEventListener('touchend', (e) => {
+                    setTimeout(() => {
+                        button.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // Gérer l'orientation du téléphone
+            window.addEventListener('orientationchange', () => {
+                setTimeout(() => {
+                    this.updateCartDisplay();
+                }, 500);
+            });
+        }
     }
 
     // Basculer l'affichage du panier

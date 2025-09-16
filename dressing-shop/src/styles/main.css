@@ -4,6 +4,40 @@
     box-sizing: border-box;
 }
 
+/* Améliorations pour mobile */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+input, textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Améliorer les interactions tactiles */
+.btn, .quantity-btn, .filter-btn, .cart-btn {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+}
+
+/* Empêcher le zoom sur les inputs */
+input[type="number"], input[type="text"], input[type="email"] {
+    font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+    input[type="number"], input[type="text"], input[type="email"] {
+        font-size: 16px !important;
+    }
+}
+
 :root {
     --primary-color: #2563eb;
     --secondary-color: #3b82f6;
@@ -1492,6 +1526,29 @@ body {
 
     .nav-toggle.active .bar:nth-child(2) {
         opacity: 0;
+    }
+
+    /* Améliorations tactiles pour mobile */
+    .btn, .product-order-btn, .add-to-cart-btn, .filter-btn {
+        min-height: 44px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .size-btn {
+        min-height: 40px;
+        min-width: 40px;
+        padding: 0.5rem;
+    }
+
+    .cart-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .nav-toggle {
+        min-height: 44px;
+        min-width: 44px;
     }
 
     .nav-toggle.active .bar:nth-child(1) {

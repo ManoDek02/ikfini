@@ -14,6 +14,7 @@ class AutoMaxApp {
             this.setupGlobalEvents();
             this.setupAnimations();
             this.setupPerformance();
+            this.setupMobileOptimizations();
             
             // Marquer comme initialisé
             this.isInitialized = true;
@@ -123,6 +124,81 @@ class AutoMaxApp {
     handleOffline() {
         console.log('📵 Connexion perdue');
         this.showOfflineNotification();
+    }
+
+    // Optimisations spécifiques pour mobile
+    setupMobileOptimizations() {
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            console.log('📱 Optimisations mobile activées pour AutoMax');
+            
+            // Empêcher le zoom sur les inputs
+            const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"]');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.style.fontSize = '16px'; // Empêche le zoom sur iOS
+                });
+            });
+
+            // Améliorer les interactions tactiles
+            const buttons = document.querySelectorAll('.btn, .filter-btn, .price-btn, .contact-btn, .nav-toggle');
+            buttons.forEach(button => {
+                button.addEventListener('touchstart', (e) => {
+                    button.style.transform = 'scale(0.95)';
+                });
+                
+                button.addEventListener('touchend', (e) => {
+                    setTimeout(() => {
+                        button.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // Gérer l'orientation du téléphone
+            window.addEventListener('orientationchange', () => {
+                setTimeout(() => {
+                    this.handleWindowResize();
+                    // Recharger les véhicules si nécessaire
+                    if (window.googleSheets && !window.googleSheets.isLoading) {
+                        const currentPage = window.navigation?.currentPage;
+                        if (currentPage === 'catalog' || currentPage === 'home') {
+                            window.googleSheets.loadCars(currentPage);
+                        }
+                    }
+                }, 500);
+            });
+
+            // Optimiser les performances sur mobile
+            this.optimizeForMobile();
+        }
+    }
+
+    // Optimisations de performance pour mobile
+    optimizeForMobile() {
+        // Réduire les animations sur mobile pour améliorer les performances
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        if (prefersReducedMotion) {
+            document.documentElement.style.setProperty('--transition', 'none');
+        }
+
+        // Lazy loading des images de voitures
+        const images = document.querySelectorAll('img[data-src]');
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        }
     }
 
     // Notification hors ligne
