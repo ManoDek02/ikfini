@@ -790,5 +790,30 @@ Merci !`
 
 // Initialize navigation when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚗 Initialisation Navigation pour AutoMax...');
     window.navigation = new Navigation();
+    
+    // Forcer le chargement des voitures après l'initialisation
+    setTimeout(() => {
+        if (window.googleSheets && window.googleSheets.cars.length === 0) {
+            console.log('🔄 Chargement forcé des voitures depuis Navigation...');
+            window.googleSheets.loadCars('catalog');
+        }
+    }, 500);
 });
+
+// Fallback pour les navigateurs qui ne supportent pas DOMContentLoaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!window.navigation) {
+            console.log('🔄 Initialisation Navigation AutoMax de secours...');
+            window.navigation = new Navigation();
+        }
+    });
+} else {
+    // Le DOM est déjà chargé
+    if (!window.navigation) {
+        console.log('🔄 Initialisation Navigation AutoMax immédiate...');
+        window.navigation = new Navigation();
+    }
+}

@@ -467,5 +467,30 @@ class Navigation {
 
 // Initialize navigation when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 Initialisation Navigation...');
     window.navigation = new Navigation();
+    
+    // Forcer le chargement des produits après l'initialisation
+    setTimeout(() => {
+        if (window.googleSheets && window.googleSheets.products.length === 0) {
+            console.log('🔄 Chargement forcé des produits depuis Navigation...');
+            window.googleSheets.loadProducts('catalog');
+        }
+    }, 500);
 });
+
+// Fallback pour les navigateurs qui ne supportent pas DOMContentLoaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!window.navigation) {
+            console.log('🔄 Initialisation Navigation de secours...');
+            window.navigation = new Navigation();
+        }
+    });
+} else {
+    // Le DOM est déjà chargé
+    if (!window.navigation) {
+        console.log('🔄 Initialisation Navigation immédiate...');
+        window.navigation = new Navigation();
+    }
+}

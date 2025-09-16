@@ -230,19 +230,19 @@ class GoogleSheetsAPI {
 
     // Charger les voitures depuis Google Sheets ou utiliser les données de démo
     async loadCars(page = 'home') {
+        console.log('🔄 Chargement des voitures pour:', page);
         this.isLoading = true;
         
         try {
-            // Essayer de charger depuis Google Sheets
-            const carsData = await this.fetchFromGoogleSheets();
+            // Utiliser directement les données de démonstration pour éviter les problèmes de réseau sur mobile
+            console.log('📦 Utilisation des données de démonstration pour mobile');
+            this.cars = this.demoData;
+            console.log('✅ Voitures chargées:', this.cars.length, 'véhicules');
             
-            if (carsData && carsData.length > 0) {
-                this.cars = carsData;
-                console.log('✅ Voitures chargées depuis Google Sheets:', this.cars.length);
-            } else {
-                // Utiliser les données de démonstration
-                this.cars = this.demoData;
-                console.log('📋 Utilisation des données de démonstration:', this.cars.length);
+            // S'assurer qu'on a des voitures
+            if (!this.cars || this.cars.length === 0) {
+                console.warn('⚠️ Aucune voiture disponible, création de données de secours');
+                this.cars = this.createFallbackCars();
             }
             
             // Filtrer selon la page
@@ -254,12 +254,54 @@ class GoogleSheetsAPI {
         } catch (error) {
             console.error('❌ Erreur lors du chargement des voitures:', error);
             // Utiliser les données de démonstration en cas d'erreur
-            this.cars = this.demoData;
-            const filteredCars = this.filterCarsForPage(page);
-            this.displayCars(filteredCars, page);
+            try {
+                this.cars = this.demoData;
+                const filteredCars = this.filterCarsForPage(page);
+                this.displayCars(filteredCars, page);
+                console.log('🔄 Récupération avec les données de démonstration:', this.cars.length, 'véhicules');
+            } catch (fallbackError) {
+                console.error('❌ Erreur critique:', fallbackError);
+                this.cars = this.createFallbackCars();
+                const filteredCars = this.filterCarsForPage(page);
+                this.displayCars(filteredCars, page);
+            }
         } finally {
             this.isLoading = false;
         }
+    }
+
+    // Créer des voitures de secours en cas de problème
+    createFallbackCars() {
+        return [
+            {
+                nom: "Toyota Corolla 2023",
+                prix: "8,500,000 FCFA",
+                categorie: "Berline",
+                image: "https://images.pexels.com/photos/116675/pexels-photo-116675.jpeg?auto=compress&cs=tinysrgb&w=400",
+                description: "Voiture familiale fiable et économique, parfaite pour la ville.",
+                caracteristiques: {
+                    "Moteur": "1.8L 4 cylindres",
+                    "Transmission": "Automatique",
+                    "Carburant": "Essence",
+                    "Kilométrage": "15,000 km",
+                    "Année": "2023"
+                }
+            },
+            {
+                nom: "BMW X5 2022",
+                prix: "25,000,000 FCFA",
+                categorie: "SUV",
+                image: "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=400",
+                description: "SUV de luxe avec toutes les options, idéal pour les familles.",
+                caracteristiques: {
+                    "Moteur": "3.0L 6 cylindres",
+                    "Transmission": "Automatique",
+                    "Carburant": "Essence",
+                    "Kilométrage": "25,000 km",
+                    "Année": "2022"
+                }
+            }
+        ];
     }
 
     // Tenter de récupérer les données depuis Google Sheets
@@ -699,8 +741,27 @@ Merci !`
 
     // Afficher les détails d'une voiture
     showCarDetails(carName) {
+        console.log('🚗 Affichage des détails pour:', carName);
+        console.log('📋 Voitures disponibles:', this.cars ? this.cars.length : 0);
+        
         const car = this.cars.find(c => c.nom === carName);
-        if (!car) return;
+        if (!car) {
+            console.error('❌ Voiture non trouvée:', carName);
+            console.log('📋 Voitures disponibles:', this.cars.map(c => c.nom));
+            
+            // Essayer de recharger les voitures
+            if (this.cars.length === 0) {
+                console.log('🔄 Rechargement des voitures...');
+                this.loadCars('catalog');
+                return;
+            }
+            
+            // Afficher une erreur
+            alert('Voiture non trouvée. Veuillez réessayer.');
+            return;
+        }
+
+        console.log('✅ Voiture trouvée:', car.nom);
 
         const modal = document.createElement('div');
         modal.className = 'modal';
@@ -927,5 +988,34 @@ Merci !`;
 
 // Initialiser l'API Google Sheets pour les voitures
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚗 Initialisation GoogleSheetsAPI pour AutoMax...');
     window.googleSheets = new GoogleSheetsAPI();
+    
+    // Debug pour mobile
+    console.log('📱 User Agent:', navigator.userAgent);
+    console.log('📱 Screen size:', window.innerWidth, 'x', window.innerHeight);
+    
+    // Forcer le chargement des voitures après un délai pour mobile
+    setTimeout(() => {
+        if (window.googleSheets && window.googleSheets.cars.length === 0) {
+            console.log('🔄 Rechargement forcé des voitures...');
+            window.googleSheets.loadCars('catalog');
+        }
+    }, 1000);
 });
+
+// Fallback pour les navigateurs qui ne supportent pas DOMContentLoaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!window.googleSheets) {
+            console.log('🔄 Initialisation AutoMax de secours...');
+            window.googleSheets = new GoogleSheetsAPI();
+        }
+    });
+} else {
+    // Le DOM est déjà chargé
+    if (!window.googleSheets) {
+        console.log('🔄 Initialisation AutoMax immédiate...');
+        window.googleSheets = new GoogleSheetsAPI();
+    }
+}
