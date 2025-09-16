@@ -1,0 +1,24 @@
+{
+  "name": "ikfini-shop",
+  "version": "1.0.0",
+  "description": "Site vitrine moderne pour boutique de vêtements avec intégration Google Sheets",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'No build step required for static site'",
+    "deploy": "echo 'Ready for deployment to Netlify, Vercel, or GitHub Pages'"
+  },
+  "keywords": [
+    "ecommerce",
+    "boutique",
+    "vetements",
+    "google-sheets",
+    "whatsapp",
+    "responsive"
+  ],
+  "author": "Ikfini Shop",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

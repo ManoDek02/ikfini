@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshVeg - Vente de Légumes Frais</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="src/styles/main.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-leaf"></i>
+                <span>FreshVeg</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Accueil</a>
+                <a href="#catalog" class="nav-link">Catalogue</a>
+                <a href="#about" class="nav-link">À Propos</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Légumes Frais du Jardin</h1>
+            <p class="hero-subtitle">Découvrez notre sélection de légumes biologiques cultivés localement avec amour</p>
+            <div class="hero-actions">
+                <a href="#catalog" class="btn btn-primary">
+                    <i class="fas fa-shopping-basket"></i>
+                    Commander Maintenant
+                </a>
+                <a href="#about" class="btn btn-secondary">
+                    <i class="fas fa-info-circle"></i>
+                    En Savoir Plus
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="vegetable-showcase">
+                <div class="vegetable-item tomato">
+                    <i class="fas fa-circle"></i>
+                </div>
+                <div class="vegetable-item carrot">
+                    <i class="fas fa-carrot"></i>
+                </div>
+                <div class="vegetable-item lettuce">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="vegetable-item pepper">
+                    <i class="fas fa-pepper-hot"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Pourquoi Choisir FreshVeg ?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>100% Biologique</h3>
+                    <p>Nos légumes sont cultivés sans pesticides ni produits chimiques</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Livraison Rapide</h3>
+                    <p>Livraison à domicile dans les 24h pour garantir la fraîcheur</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Production Locale</h3>
+                    <p>Légumes cultivés par nos agriculteurs partenaires locaux</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Qualité Premium</h3>
+                    <p>Triés et emballés avec soin pour une qualité optimale</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section class="catalog" id="catalog">
+        <div class="container">
+            <h2 class="section-title">Notre Catalogue</h2>
+            <div class="catalog-filters">
+                <button class="filter-btn active" data-category="all">Tous</button>
+                <button class="filter-btn" data-category="legumes-feuilles">Légumes Feuilles</button>
+                <button class="filter-btn" data-category="legumes-racines">Légumes Racines</button>
+                <button class="filter-btn" data-category="legumes-fruits">Légumes Fruits</button>
+                <button class="filter-btn" data-category="aromates">Aromates</button>
+                <button class="filter-btn" data-category="legumes-speciaux">Légumes Spéciaux</button>
+            </div>
+            <div class="products-grid" id="products-grid">
+                <!-- Les produits seront chargés dynamiquement -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Notre Histoire</h2>
+                    <p>Depuis 2020, FreshVeg s'engage à fournir les meilleurs légumes biologiques à nos clients. Nous travaillons en étroite collaboration avec des agriculteurs locaux pour garantir la fraîcheur et la qualité de nos produits.</p>
+                    <p>Notre mission est de rendre les légumes biologiques accessibles à tous, tout en soutenant l'agriculture locale et durable.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Variétés de Légumes</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Agriculteurs Partenaires</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Clients Satisfaits</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="farm-image">
+                        <i class="fas fa-tractor"></i>
+                        <div class="farm-details">
+                            <h3>Nos Fermes Partenaires</h3>
+                            <p>Cultivation respectueuse de l'environnement</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contactez-nous</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Téléphone</h3>
+                            <p>+221 77 123 45 67</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>contact@freshveg.sn</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Adresse</h3>
+                            <p>Dakar, Sénégal</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Horaires</h3>
+                            <p>Lun - Sam: 8h - 18h</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-leaf"></i>
+                        <span>FreshVeg</span>
+                    </div>
+                    <p>Votre partenaire pour des légumes frais et biologiques</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Liens Rapides</h3>
+                    <ul>
+                        <li><a href="#home">Accueil</a></li>
+                        <li><a href="#catalog">Catalogue</a></li>
+                        <li><a href="#about">À Propos</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Livraison à Domicile</a></li>
+                        <li><a href="#">Commande en Ligne</a></li>
+                        <li><a href="#">Support Client</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FreshVeg. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Panier</h3>
+            <button class="close-cart" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Les articles du panier seront ajoutés ici -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total: <span id="cart-total">0 FCFA</span></span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn btn-secondary clear-cart-btn" onclick="clearCart()">
+                    <i class="fas fa-trash"></i>
+                    Vider le panier
+                </button>
+                <button class="btn btn-primary checkout-btn" onclick="proceedToCheckout()">
+                    <i class="fas fa-whatsapp"></i>
+                    Commander via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+    <!-- Scripts -->
+    <script src="src/scripts/main.js"></script>
+    <script src="src/scripts/cart.js"></script>
+    <script src="src/scripts/googleSheets.js"></script>
+    <script src="src/scripts/whatsapp.js"></script>
+</body>
+</html>
