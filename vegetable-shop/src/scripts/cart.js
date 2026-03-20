@@ -229,7 +229,7 @@ class CartManager {
         const message = this.generateWhatsAppMessage();
         console.log('📝 Message généré:', message);
         
-        const whatsappUrl = `https://wa.me/2217748766689?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/221776404406?text=${encodeURIComponent(message)}`;
         console.log('🔗 URL WhatsApp:', whatsappUrl);
         
         window.open(whatsappUrl, '_blank');
