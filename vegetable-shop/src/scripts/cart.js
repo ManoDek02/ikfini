@@ -345,61 +345,14 @@ class CartManager {
 // Initialiser le gestionnaire de panier
 const cartManager = new CartManager();
 
-// Fonctions globales pour les boutons HTML
-function proceedToCheckout() {
-    console.log('🛒 Bouton checkout cliqué');
-    if (cartManager) {
-        console.log('✅ CartManager trouvé, exécution du checkout');
-        cartManager.proceedToCheckout();
-    } else {
-        console.error('❌ CartManager non trouvé');
-    }
-}
-
-function toggleCart() {
-    console.log('🛒 Toggle cart cliqué');
-    if (cartManager) {
-        cartManager.toggleCart();
-    } else {
-        console.error('❌ CartManager non trouvé');
-    }
-}
-
 function clearCart() {
-    console.log('🗑️ Vider le panier cliqué');
     if (cartManager) {
         cartManager.clearCart();
-    } else {
-        console.error('❌ CartManager non trouvé');
     }
 }
-
 // Fonctions globales pour compatibilité
-window.toggleCart = () => {
-    console.log('🛒 Window.toggleCart appelé');
-    if (cartManager) {
-        cartManager.toggleCart();
-    } else {
-        console.error('❌ CartManager non trouvé');
-    }
-};
-
-window.proceedToCheckout = () => {
-    console.log('🛒 Window.proceedToCheckout appelé');
-    if (cartManager) {
-        cartManager.proceedToCheckout();
-    } else {
-        console.error('❌ CartManager non trouvé');
-    }
-};
-
 window.clearCart = () => {
-    console.log('🗑️ Window.clearCart appelé');
-    if (cartManager) {
-        cartManager.clearCart();
-    } else {
-        console.error('❌ CartManager non trouvé');
-    }
+    if (cartManager) cartManager.clearCart();
 };
 
 window.cartManager = cartManager;
