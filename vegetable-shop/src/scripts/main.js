@@ -403,7 +403,6 @@ const vegetablesData = [
 
 // Variables globales
 let currentFilter = 'all';
-let cart = JSON.parse(localStorage.getItem('freshveg-cart')) || [];
 
 // Initialisation de l'application
 document.addEventListener('DOMContentLoaded', function() {
@@ -499,37 +498,15 @@ function setupEventListeners() {
 function addToCart(productId) {
     const product = vegetablesData.find(p => p.id === productId);
     const quantity = parseInt(document.getElementById(`qty-${productId}`).value) || 1;
-    
-    const existingItem = cart.find(item => item.id === productId);
-    
-    if (existingItem) {
-        existingItem.quantity += quantity;
-    } else {
-        cart.push({
-            ...product,
-            quantity: quantity
-        });
-    }
-    
-    saveCart();
-    updateCartDisplay();
-    showNotification(`${product.name} ajouté au panier !`, 'success');
+    cartManager.addToCart(product, quantity);
 }
 
 function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
-    saveCart();
-    updateCartDisplay();
-    showNotification('Article retiré du panier', 'info');
+    cartManager.removeFromCart(productId);
 }
 
 function updateQuantity(productId, newQuantity) {
-    const item = cart.find(item => item.id === productId);
-    if (item) {
-        item.quantity = Math.max(1, newQuantity);
-        saveCart();
-        updateCartDisplay();
-    }
+    cartManager.updateQuantity(productId, newQuantity);
 }
 
 function increaseQuantity(productId) {
@@ -549,90 +526,23 @@ function decreaseQuantity(productId) {
 }
 
 function saveCart() {
-    localStorage.setItem('freshveg-cart', JSON.stringify(cart));
+    cartManager.saveCart();
 }
 
 function updateCartDisplay() {
-    const cartCount = document.getElementById('cart-count');
-    const cartItems = document.getElementById('cart-items');
-    const cartTotal = document.getElementById('cart-total');
-    
-    if (cartCount) {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCount.textContent = totalItems;
-        cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
-    }
-    
-    if (cartItems) {
-        cartItems.innerHTML = '';
-        cart.forEach(item => {
-            const cartItem = document.createElement('div');
-            cartItem.className = 'cart-item';
-            cartItem.innerHTML = `
-                <div class="cart-item-image">
-                    <i class="${item.image}"></i>
-                </div>
-                <div class="cart-item-info">
-                    <div class="cart-item-name">${item.name}</div>
-                    <div class="cart-item-price">${item.price.toLocaleString()} FCFA</div>
-                </div>
-                <div class="cart-item-controls">
-                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
-                    <span>${item.quantity}</span>
-                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
-                    <button class="remove-item-btn" onclick="removeFromCart(${item.id})">×</button>
-                </div>
-            `;
-            cartItems.appendChild(cartItem);
-        });
-    }
-    
-    if (cartTotal) {
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        cartTotal.textContent = `${total.toLocaleString()} FCFA`;
-    }
+    cartManager.updateCartDisplay();
 }
+
 
 // Fonction pour basculer le panier
 function toggleCart() {
-    const cartSidebar = document.getElementById('cart-sidebar');
-    const cartOverlay = document.getElementById('cart-overlay');
-    
-    cartSidebar.classList.toggle('active');
-    cartOverlay.classList.toggle('active');
+    cartManager.toggleCart();
 }
 
-// Fonction pour procéder au checkout
 function proceedToCheckout() {
-    if (cart.length === 0) {
-        showNotification('Votre panier est vide', 'warning');
-        return;
-    }
-    
-    // Générer le message WhatsApp
-    const message = generateWhatsAppMessage();
-    const whatsappUrl = `https://wa.me/221776404406?text=${encodeURIComponent(message)}`;
-    
-    window.open(whatsappUrl, '_blank');
+    cartManager.proceedToCheckout();
 }
 
-// Génération du message WhatsApp
-function generateWhatsAppMessage() {
-    let message = `🍅 *Commande FreshVeg* 🥕\n\n`;
-    message += `Bonjour ! Je souhaite passer une commande de légumes frais :\n\n`;
-    
-    cart.forEach(item => {
-        message += `• ${item.name} (${item.badge || 'Standard'})\n`;
-        message += `  Quantité: ${item.quantity} ${item.unit}\n`;
-        message += `  Prix: ${item.price.toLocaleString()} FCFA\n\n`;
-    });
-    
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    message += `💰 *Total: ${total.toLocaleString()} FCFA*\n\n`;
-    message += `📱 Merci de confirmer ma commande et de me donner les détails de livraison.`;
-    
-    return message;
-}
 
 // Gestion du formulaire de contact
 function handleContactForm(e) {
