@@ -611,7 +611,7 @@ function proceedToCheckout() {
     
     // Générer le message WhatsApp
     const message = generateWhatsAppMessage();
-    const whatsappUrl = `https://wa.me/2217748766689?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/221776404406?text=${encodeURIComponent(message)}`;
     
     window.open(whatsappUrl, '_blank');
 }
