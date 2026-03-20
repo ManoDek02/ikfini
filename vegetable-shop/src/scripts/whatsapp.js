@@ -2,7 +2,7 @@
 
 class WhatsAppManager {
     constructor() {
-        this.phoneNumber = '2217748766689'; // Numéro WhatsApp par défaut
+        this.phoneNumber = '221776404406'; // Numéro WhatsApp par défaut
         this.init();
     }
 
